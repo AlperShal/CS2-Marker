@@ -1,0 +1,11 @@
+{
+    "general.target.noMatch": "{red}Eşleşme bulunmadı!",
+    "general.target.multipleMatches": "{red}Birden fazla eşleşme bulundu!",
+    "command.givemarker.description": "Marker yöneticisini değiştirir.",
+    "command.givemarker.admin.fromNowOn": "{gold}{0}{silver} artık marker yöneticisi!",
+    "command.givemarker.admin.noLonger": "{gold}{0}{silver} artık marker yöneticisi değil!",
+    "command.givemarker.controller.fromNowOn": "{silver}Artık marker yöneticisisin!",
+    "command.givemarker.controller.howToUse1": "{silver}Kullanım #1: {gold}bind v \"marker\"",
+    "command.givemarker.controller.howToUse2": "{silver}Kullanım #2: {gold}bind f \"marker; +lookatweapon\"",
+    "command.givemarker.controller.noLonger": "{red}Artık marker yöneticisi değilsin!"
+}

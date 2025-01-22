@@ -1,0 +1,11 @@
+{
+    "general.target.noMatch": "{red}No match found!",
+    "general.target.multipleMatches": "{red}More than one match found!",
+    "command.givemarker.description": "Changes marker controller.",
+    "command.givemarker.admin.fromNowOn": "{gold}{0}{silver} is now the controller of the marker!",
+    "command.givemarker.admin.noLonger": "{gold}{0}{silver} no longer controls the marker!",
+    "command.givemarker.controller.fromNowOn": "{silver}You are now the controller of the marker!",
+    "command.givemarker.controller.howToUse1": "{silver}To use #1: {gold}bind v \"marker\"",
+    "command.givemarker.controller.howToUse2": "{silver}To use #2: {gold}bind f \"marker; +lookatweapon\"",
+    "command.givemarker.controller.noLonger": "{red}You no longer control the marker!"
+}
