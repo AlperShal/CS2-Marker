@@ -5,6 +5,7 @@
 A marker or warden ring plugin for Counter-Strike 2 (CS2) made using CounterStrikeSharp (CSS/CS#).
 
 ### Dependencies
+- Linux Server (Windows servers are not suppoerted.)
 
 - [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
 
@@ -47,6 +48,7 @@ A marker or warden ring plugin for Counter-Strike 2 (CS2) made using CounterStri
 Counter-Strike 2 (CS2) için CounterStrikeSharp ile yapılmış bir marker ya da komutçu çemberi eklentisi.
 
 ### Bağımlılıklar
+- Linux Sunucu (Windows sunucular desteklenmemektedir.)
 
 - [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
 
