@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization; // JsonPropertyNamer
 using CounterStrikeSharp.API.Core; // AddCommand, BasePlugin, CCSPlayerController, Localizer
 using CounterStrikeSharp.API.Core.Attributes; // MinimumApiVersion
+using CounterStrikeSharp.API.Core.Translations; // StringExtensions
 using CounterStrikeSharp.API.Modules.Commands; // CommandInfo
 using CounterStrikeSharp.API.Modules.Commands.Targeting; // TargetResult
 using CounterStrikeSharp.API.Modules.Admin; // RequiresPermissions
@@ -67,11 +68,8 @@ public class Commands
 // Config /
 public class PluginConfig : BasePluginConfig
 {
-    [JsonPropertyName("ChatPrefixColor")]
-    public string ChatPrefixColor { get; set; } = "Blue"; // https://docs.cssharp.dev/api/CounterStrikeSharp.API.Modules.Utils.ChatColors.html
-
     [JsonPropertyName("ChatPrefix")]
-    public string ChatPrefix { get; set; } = "[Marker]";
+    public string ChatPrefix { get; set; } = " {blue}[Marker]";
 
     [JsonPropertyName("Commands")]
     public Commands Commands { get; set; } = new();
@@ -84,7 +82,7 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
 {
     // Plugin Information
     public override string ModuleName => "Marker";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.1";
     public override string ModuleAuthor => "AlperShal<alper@sal.web.tr>";
     public override string ModuleDescription => "A plugin to put a marker on the map.";
 
@@ -93,77 +91,7 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
     public PluginConfig Config { get; set; } = new();
     public void OnConfigParsed(PluginConfig config)
     {
-        // The following switch case is because ChatColors doesn't provide an interface to give a string (ex: "Blue") and get a color code (ex: '\x0B') If there is an easier way to get this to work I would like to hear it.
-        // Convert config.ChatPrefixColor to color code from color name.
-        switch (config.ChatPrefixColor)
-        {
-            case "Default":
-                config.ChatPrefixColor = '\x01'.ToString();
-                break;
-            case "White":
-                config.ChatPrefixColor = '\x01'.ToString();
-                break;
-            case "DarkRed":
-                config.ChatPrefixColor = '\x02'.ToString();
-                break;
-            case "Green":
-                config.ChatPrefixColor = '\x04'.ToString();
-                break;
-            case "LightYellow":
-                config.ChatPrefixColor = '\x09'.ToString();
-                break;
-            case "LightBlue":
-                config.ChatPrefixColor = '\x0B'.ToString();
-                break;
-            case "Olive":
-                config.ChatPrefixColor = '\x05'.ToString();
-                break;
-            case "Lime":
-                config.ChatPrefixColor = '\x06'.ToString();
-                break;
-            case "Red":
-                config.ChatPrefixColor = '\x07'.ToString();
-                break;
-            case "LightPurple":
-                config.ChatPrefixColor = '\x03'.ToString();
-                break;
-            case "Purple":
-                config.ChatPrefixColor = '\x0E'.ToString();
-                break;
-            case "Grey":
-                config.ChatPrefixColor = '\x08'.ToString();
-                break;
-            case "Yellow":
-                config.ChatPrefixColor = '\x09'.ToString();
-                break;
-            case "Gold":
-                config.ChatPrefixColor = '\x10'.ToString();
-                break;
-            case "Silver":
-                config.ChatPrefixColor = '\x0A'.ToString();
-                break;
-            case "Blue":
-                config.ChatPrefixColor = '\x0B'.ToString();
-                break;
-            case "DarkBlue":
-                config.ChatPrefixColor = '\x0C'.ToString();
-                break;
-            case "BlueGrey":
-                config.ChatPrefixColor = '\x0A'.ToString();
-                break;
-            case "Magenta":
-                config.ChatPrefixColor = '\x0E'.ToString();
-                break;
-            case "LightRed":
-                config.ChatPrefixColor = '\x0F'.ToString();
-                break;
-            case "Orange":
-                config.ChatPrefixColor = '\x10'.ToString();
-                break;
-            default:
-                config.ChatPrefixColor = '\x01'.ToString();
-                break;
-        }
+        config.ChatPrefix = StringExtensions.ReplaceColorTags(config.ChatPrefix);
 
         Config = config;
     }
@@ -200,33 +128,33 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
             CCSPlayerController targetResult = targetResults.First();
             if (targetResults.Count() == 0)
             {
-                commandInfo.ReplyToCommand(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["general.target.noMatch"]);
+                commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["general.target.noMatch"]);
                 return;
             }
             if (targetResults.Count() > 1)
             {
-                commandInfo.ReplyToCommand(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["general.target.multipleMatches"]);
+                commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["general.target.multipleMatches"]);
                 return;
             }
 
             if (markerController == targetResult)
             {
                 markerController = null;
-                commandInfo.ReplyToCommand(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.noLonger", targetResult.PlayerName]);
-                targetResult.PrintToChat(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.noLonger"]);
+                commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.noLonger", targetResult.PlayerName]);
+                targetResult.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.noLonger"]);
             }
             else
             {
                 if (markerController != null)
                 {
-                    commandInfo.ReplyToCommand(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.noLonger", targetResult.PlayerName]);
-                    targetResult.PrintToChat(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.noLonger"]);
+                    commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.noLonger", targetResult.PlayerName]);
+                    targetResult.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.noLonger"]);
                 }
                 markerController = targetResult;
-                commandInfo.ReplyToCommand(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.fromNowOn", targetResult.PlayerName]);
-                markerController.PrintToChat(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.fromNowOn"]);
-                markerController.PrintToChat(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.howToUse1"]);
-                markerController.PrintToChat(" " + Config.ChatPrefixColor + Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.howToUse2"]);
+                commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.fromNowOn", targetResult.PlayerName]);
+                markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.fromNowOn"]);
+                markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.howToUse1"]);
+                markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.howToUse2"]);
             }
         }
     }
