@@ -82,7 +82,7 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
 {
     // Plugin Information
     public override string ModuleName => "Marker";
-    public override string ModuleVersion => "1.0.1";
+    public override string ModuleVersion => "1.0.2";
     public override string ModuleAuthor => "AlperShal<alper@sal.web.tr>";
     public override string ModuleDescription => "A plugin to put a marker on the map.";
 
@@ -147,11 +147,11 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
             {
                 if (markerController != null)
                 {
-                    commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.noLonger", targetResult.PlayerName]);
-                    targetResult.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.noLonger"]);
+                    commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.noLonger", markerController.PlayerName]);
+                    markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.noLonger"]);
                 }
                 markerController = targetResult;
-                commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.fromNowOn", targetResult.PlayerName]);
+                commandInfo.ReplyToCommand(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.admin.fromNowOn", markerController.PlayerName]);
                 markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.fromNowOn"]);
                 markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.howToUse1"]);
                 markerController.PrintToChat(Config.ChatPrefix + ChatColors.Default + Localizer["command.givemarker.controller.howToUse2"]);
