@@ -82,7 +82,7 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
 {
     // Plugin Information
     public override string ModuleName => "Marker";
-    public override string ModuleVersion => "1.0.2";
+    public override string ModuleVersion => "1.0.3";
     public override string ModuleAuthor => "AlperShal<alper@sal.web.tr>";
     public override string ModuleDescription => "A plugin to put a marker on the map.";
 
@@ -99,6 +99,14 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>
 
     public override void Load(bool hotReload)
     {
+        RegisterEventHandler<EventRoundStart>((@event, info) =>
+        {
+            // Since game automatically clears all entities on EventRoundStart we are also supposed to clear the list of placedMarkers.
+            placedMarkers = [];
+
+            return HookResult.Continue;
+        });
+
         // GiveMarker
         foreach (var name in Config.Commands.GiveMarker.Names)
         {
